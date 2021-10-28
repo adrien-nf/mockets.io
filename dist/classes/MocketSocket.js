@@ -6,14 +6,18 @@ class MocketSocket {
         this.rooms = new Set();
         this.joinedRooms = new Set();
         this.connected = true;
-        this.disconnected = false;
+    }
+    get disconnected() {
+        return !this.connected;
     }
     join(rooms) {
         if (typeof rooms === 'string') {
             rooms = [rooms];
         }
-        rooms.forEach(e => this.rooms.add(e));
-        this.joinedRooms.forEach(e => this.rooms.add(e));
+        rooms.forEach(e => {
+            this.rooms.add(e);
+            this.joinedRooms.add(e);
+        });
     }
     leave(room) {
         this.rooms.delete(room);
@@ -22,8 +26,7 @@ class MocketSocket {
         this.rooms.clear();
     }
     disconnect() {
-        this.disconnected = true;
-        this.connected = true;
+        this.connected = false;
         return this;
     }
 }

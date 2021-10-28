@@ -2,7 +2,7 @@ export declare class MocketSocket {
     rooms: Set<string>;
     joinedRooms: Set<string>;
     connected: boolean;
-    disconnected: boolean;
+    get disconnected(): boolean;
     constructor();
     join(rooms: string | Array<string>): void;
     leave(room: string): void;
