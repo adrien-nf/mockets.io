@@ -1,5 +1,5 @@
 {
-	"name": "mocketio",
+	"name": "mockets.io",
 	"version": "0.0.1",
 	"description": "Mocked sockets from socket.io",
 	"main": "dist/index.js",
