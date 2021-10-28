@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { MocketSocket } from '../src';
+import { EnhancedMocketSocket as MocketSocket } from '../src';
 
 describe('MocketSocket', () => {
 	let mocketSocket: MocketSocket;

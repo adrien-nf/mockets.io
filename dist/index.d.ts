@@ -1,2 +1,2 @@
-import { MocketSocket } from './classes/MocketSocket';
-export { MocketSocket, };
+import { TestableMocketSocket } from './classes/TestableMocketSocket';
+export { TestableMocketSocket as MocketSocket, };

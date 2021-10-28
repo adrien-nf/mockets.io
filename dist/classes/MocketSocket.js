@@ -4,7 +4,6 @@ exports.MocketSocket = void 0;
 class MocketSocket {
     constructor() {
         this.rooms = new Set();
-        this.joinedRooms = new Set();
         this.connected = true;
     }
     get disconnected() {
@@ -16,7 +15,6 @@ class MocketSocket {
         }
         rooms.forEach(e => {
             this.rooms.add(e);
-            this.joinedRooms.add(e);
         });
     }
     leave(room) {

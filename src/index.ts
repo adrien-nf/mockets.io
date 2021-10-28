@@ -1,5 +1,7 @@
-import { TestableMocketSocket } from './classes/TestableMocketSocket';
+import { MocketSocket } from './classes/MocketSocket';
+import { EnhancedMocketSocket } from './classes/EnhancedMocketSocket';
 
 export {
-	TestableMocketSocket as MocketSocket,
+	MocketSocket,
+	EnhancedMocketSocket,
 }

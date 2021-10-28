@@ -1,11 +1,11 @@
+export declare type Room = string;
 export declare class MocketSocket {
     rooms: Set<string>;
-    joinedRooms: Set<string>;
     connected: boolean;
     get disconnected(): boolean;
     constructor();
-    join(rooms: string | Array<string>): void;
-    leave(room: string): void;
+    join(rooms: Room | Array<Room>): void;
+    leave(room: Room): void;
     leaveAll(): void;
     disconnect(): this;
 }

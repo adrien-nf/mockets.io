@@ -1,6 +1,6 @@
 import { MocketSocket, Room } from "./MocketSocket";
 
-export class TestableMocketSocket extends MocketSocket {
+export class EnhancedMocketSocket extends MocketSocket {
 	public joinedRooms: Set<string>;
 
 	constructor() {
