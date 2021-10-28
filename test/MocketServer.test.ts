@@ -1,4 +1,4 @@
-import { MocketSocket } from './../src/classes/Socket/MocketSocket';
+import { MocketSocket } from '../src/classes/Socket/MocketSocket';
 import { expect } from 'chai';
 import { MocketServer } from '../src/classes/Server/MocketServer';
 

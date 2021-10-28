@@ -1,15 +1,18 @@
 import type { Room, EventName } from './../types/types';
 import { MocketServer } from "../Server/MocketServer";
 import { Event } from './Event';
+import { EventSender } from '../../interfaces/EventSender/EventSender';
 
 export class EventBuilder {
 	public server: MocketServer;
-	public rooms: Set<Room>;
+	public sender: EventSender;
+	public rooms: Set<Room> = new Set<Room>();
 	public eventName: EventName;
 	public args: unknown[];
 
-	constructor(server: MocketServer) {
+	constructor(server: MocketServer, sender: EventSender) {
 		this.server = server;
+		this.sender = sender;
 	}
 
 	to(room: Room): this {
@@ -20,7 +23,10 @@ export class EventBuilder {
 	emit(ev: EventName, ...args: unknown[]): Event {
 		this.eventName = ev;
 		this.args = args;
-		return this.toEvent();
+		const event = this.toEvent();
+		this.server.notify(event);
+		this.sender.sentEvents.push(event);
+		return event;
 	}
 
 	toEvent(): Event {

@@ -47,7 +47,7 @@ export class MocketSocket implements EventReceiver, EventSender {
 	}
 
 	to(room: Room): EventBuilder {
-		return (new EventBuilder(this.server)).to(room);
+		return (new EventBuilder(this.server, this)).to(room);
 	}
 
 	in(room: Room): EventBuilder {
@@ -55,9 +55,7 @@ export class MocketSocket implements EventReceiver, EventSender {
 	}
 
 	emit(ev: EventName, ...args): void {
-		const event = (new EventBuilder(this.server)).emit(ev, ...args)
-		this.sentEvents.push(event);
-		this.server.notify(event)
+		(new EventBuilder(this.server, this)).emit(ev, ...args)
 	}
 
 	notify(event: Event) {

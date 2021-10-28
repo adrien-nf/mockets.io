@@ -17,12 +17,16 @@ export class MocketServer implements EventReceiver, EventSender {
 	}
 
 	notify(event: Event) {
-		this.receivedEvents.push(event);
+		if (event.rooms.size > 0) {
+			const sockets = [...this.connectedSockets].filter(socket => [...socket.rooms].some(room => event.rooms.has(room)))
+			sockets.forEach(socket => socket.notify(event))
+		} else {
+			this.receivedEvents.push(event);
+		}
 	}
 
 	emit(ev: EventName, ...args): void {
-		const event = (new EventBuilder(this)).emit(ev, args);
-		this.sentEvents.push(event);
+		const event = (new EventBuilder(this, this)).emit(ev, args);
 		this.connectedSockets.forEach(e => e.notify(event));
 	}
 

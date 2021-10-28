@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect } from 'chai';
 import { MocketSocket } from '../src';
 import { MocketServer } from '../src/classes/Server/MocketServer';
@@ -74,5 +75,22 @@ describe('MocketSocket', () => {
 
 		expect(mocketSocket.receivedEvents.length).to.be.equal(1);
 		expect(mocketSocket.receivedEvents[0].eventName).to.be.equal('random-event')
+	})
+
+	it('should be able to communicate to rooms', () => {
+		const mocketInRoom = mocketServer.createSocket();
+		const mocketNotInRoom = mocketServer.createSocket();
+
+		mocketInRoom.join('random-id');
+
+		expect(mocketInRoom.receivedEvents.length).to.be.equal(0);
+		expect(mocketNotInRoom.receivedEvents.length).to.be.equal(0);
+		expect(mocketSocket.sentEvents.length).to.be.equal(0);
+
+		mocketSocket.to('random-id').emit('random-event');
+
+		expect(mocketInRoom.receivedEvents.length).to.be.equal(1);
+		expect(mocketNotInRoom.receivedEvents.length).to.be.equal(0);
+		expect(mocketSocket.sentEvents.length).to.be.equal(1);
 	})
 })
