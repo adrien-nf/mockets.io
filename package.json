@@ -14,7 +14,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/adrien-nf/mocket.io.git"
+		"url": "git+https://github.com/adrien-nf/mockets.io.git"
 	},
 	"keywords": [
 		"socket",
@@ -22,14 +22,16 @@
 		"sockets",
 		"mock",
 		"mocket",
-		"mocket.io"
+		"mocket.io",
+		"mockets",
+		"mockets.io"
 	],
 	"author": "Adrien N. F.",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/adrien-nf/mocket.io/issues"
+		"url": "https://github.com/adrien-nf/mockets.io/issues"
 	},
-	"homepage": "https://github.com/adrien-nf/mocket.io#readme",
+	"homepage": "https://github.com/adrien-nf/mockets.io#readme",
 	"dependencies": {},
 	"devDependencies": {
 		"@types/chai": "^4.2.22",
