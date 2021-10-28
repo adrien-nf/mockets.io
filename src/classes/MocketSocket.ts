@@ -1,7 +1,7 @@
 export declare type Room = string;
 
 export class MocketSocket {
-	public rooms: Set<string>;
+	public rooms: Set<Room>;
 	public connected: boolean;
 
 	get disconnected() {
@@ -9,7 +9,7 @@ export class MocketSocket {
 	}
 
 	constructor() {
-		this.rooms = new Set<string>();
+		this.rooms = new Set<Room>();
 		this.connected = true;
 	}
 

@@ -1,11 +1,11 @@
 import { MocketSocket, Room } from "./MocketSocket";
 
 export class EnhancedMocketSocket extends MocketSocket {
-	public joinedRooms: Set<string>;
+	public joinedRooms: Set<Room>;
 
 	constructor() {
 		super();
-		this.joinedRooms = new Set<string>();
+		this.joinedRooms = new Set<Room>();
 	}
 
 	public join(rooms: Room | Array<Room>) {
