@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { MocketSocket } from '.';
+import { MocketSocket } from '../src';
 
 describe('MocketSocket', () => {
 	let mocketSocket: MocketSocket;
@@ -14,5 +14,6 @@ describe('MocketSocket', () => {
 		mocketSocket.join("random-id");
 
 		expect(mocketSocket.rooms.size).to.equal(1)
+		expect(mocketSocket.rooms.has("random-id")).to.be.true;
 	})
 })

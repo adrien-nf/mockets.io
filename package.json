@@ -8,7 +8,7 @@
 		"/dist"
 	],
 	"scripts": {
-		"test": "mocha -r ts-node/register src/**/*.test.ts",
+		"test": "mocha -r ts-node/register tests/**/*.test.ts",
 		"coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test",
 		"lint": "eslint . --ext .ts"
 	},

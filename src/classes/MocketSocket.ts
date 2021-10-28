@@ -1,6 +1,10 @@
 export class MocketSocket {
 	public rooms: Set<string>;
 
+	constructor() {
+		this.rooms = new Set<string>();
+	}
+
 	join(rooms: string | Array<string>) {
 		if (typeof rooms === 'string') {
 			rooms = [rooms];
