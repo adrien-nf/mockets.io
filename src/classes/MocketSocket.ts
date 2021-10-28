@@ -2,13 +2,15 @@ export class MocketSocket {
 	public rooms: Set<string>;
 	public joinedRooms: Set<string>;
 	public connected: boolean;
-	public disconnected: boolean;
+
+	get disconnected() {
+		return !this.connected;
+	}
 
 	constructor() {
 		this.rooms = new Set<string>();
 		this.joinedRooms = new Set<string>();
 		this.connected = true;
-		this.disconnected = false;
 	}
 
 	join(rooms: string | Array<string>) {
@@ -16,8 +18,10 @@ export class MocketSocket {
 			rooms = [rooms];
 		}
 
-		rooms.forEach(e => this.rooms.add(e));
-		this.joinedRooms.forEach(e => this.rooms.add(e));
+		rooms.forEach(e => {
+			this.rooms.add(e)
+			this.joinedRooms.add(e)
+		});
 	}
 
 	leave(room: string) {
@@ -29,8 +33,7 @@ export class MocketSocket {
 	}
 
 	disconnect(): this {
-		this.disconnected = true;
-		this.connected = true;
+		this.connected = false;
 
 		return this;
 	}
