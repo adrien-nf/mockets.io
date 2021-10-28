@@ -1,8 +1,12 @@
 export class MocketSocket {
 	public rooms: Set<string>;
+	public connected: boolean;
+	public disconnected: boolean;
 
 	constructor() {
 		this.rooms = new Set<string>();
+		this.connected = true;
+		this.disconnected = false;
 	}
 
 	join(rooms: string | Array<string>) {
@@ -19,5 +23,12 @@ export class MocketSocket {
 
 	leaveAll() {
 		this.rooms.clear();
+	}
+
+	disconnect(): this {
+		this.disconnected = true;
+		this.connected = true;
+
+		return this;
 	}
 }
