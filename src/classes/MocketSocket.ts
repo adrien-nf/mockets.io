@@ -12,4 +12,8 @@ export class MocketSocket {
 	leave(room: string) {
 		this.rooms.delete(room);
 	}
+
+	leaveAll() {
+		this.rooms.clear();
+	}
 }
