@@ -1,8 +1,8 @@
+import { NormalEventRegisterer } from './../../src/classes/Event/EventPlayer/EventRegisterer/NormalEventRegisterer';
 import { expect } from "chai";
-import { EventRegisterer } from "../../src/classes/Event/EventPlayer/EventRegisterer/EventRegisterer";
 
 describe('EventRegisterer', () => {
-	let ePlayer: EventRegisterer;
+	let ePlayer: NormalEventRegisterer;
 	let numberOfTimesCallbackWasPlayed: number;
 	let arg1: string, arg2: string, arg3: string;
 
@@ -14,7 +14,7 @@ describe('EventRegisterer', () => {
 	}
 
 	beforeEach(() => {
-		ePlayer = new EventRegisterer();
+		ePlayer = new NormalEventRegisterer();
 		numberOfTimesCallbackWasPlayed = 0;
 	})
 

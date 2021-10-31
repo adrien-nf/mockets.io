@@ -1,12 +1,13 @@
+import { EventRegisterer } from "../../../interfaces/EventRegisterer/EventRegisterer";
 import { Event } from "../Event";
-import { EventRegisterer } from "./EventRegisterer/EventRegisterer";
+import { NormalEventRegisterer } from "./EventRegisterer/NormalEventRegisterer";
 import { OneTimeEventRegisterer } from "./EventRegisterer/OneTimeEventRegisterer";
 
-export abstract class EventPlayer {
-	events = new EventRegisterer();
+export class EventPlayer implements EventRegisterer {
+	events = new NormalEventRegisterer();
 	oneTimeEvents = new OneTimeEventRegisterer();
 
-	protected play(event: Event) {
+	public play(event: Event) {
 		const args = event.args || [];
 		this.events.tryToPlay(event.name, ...args);
 		this.oneTimeEvents.tryToPlay(event.name, ...args);

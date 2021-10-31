@@ -1,7 +1,7 @@
 import { Event } from "../../Event";
-import { EventRegisterer } from "./EventRegisterer";
+import { NormalEventRegisterer } from "./NormalEventRegisterer";
 
-export class OneTimeEventRegisterer extends EventRegisterer {
+export class OneTimeEventRegisterer extends NormalEventRegisterer {
 	public tryToPlay(evName: Event['name'], ...args: unknown[]) {
 		if (this.eventIsRegistered(evName)) {
 			const callables = this.registeredEvents.get(evName);

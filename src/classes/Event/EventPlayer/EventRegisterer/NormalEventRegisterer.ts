@@ -1,6 +1,6 @@
 import { Event } from "../../Event";
 
-export class EventRegisterer {
+export class NormalEventRegisterer {
 	public registeredEvents: Map<Event['name'], Array<CallableFunction>> = new Map();
 
 	public addEventCallback(eventName: Event['name'], callback: CallableFunction): void {
@@ -38,5 +38,4 @@ export class EventRegisterer {
 	protected eventIsRegistered(eventName: Event['name']) {
 		return this.registeredEvents.has(eventName);
 	}
-
 }
