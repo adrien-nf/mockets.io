@@ -37,7 +37,6 @@ export class MocketServer implements EventReceiver, EventSender, EventRegisterer
 			this.getDestinationSocketsForEvent(event).forEach(socket => socket.notify(event))
 		} else {
 			this.receivedEvents.push(event);
-			this.eventPlayer.play(event);
 		}
 	}
 

@@ -4,14 +4,17 @@ import { EventName, Room } from './../types/types';
 import { EventBuilder } from "../Event/EventBuilder";
 import type { MocketServer } from "../Server/MocketServer";
 import { Event } from '../Event/Event';
+import { EventPlayer } from '../Event/EventPlayer/EventPlayer';
+import { EventRegisterer } from '../../interfaces/EventRegisterer/EventRegisterer';
 
-export class MocketSocket implements EventReceiver, EventSender {
+export class MocketSocket implements EventReceiver, EventSender, EventRegisterer {
 	public rooms: Set<Room> = new Set<Room>();
 	public joinedRooms: Set<Room> = new Set<Room>();
 	public connected = true;
 	public server: MocketServer;
 	public receivedEvents = new Array<Event>();
 	public sentEvents = new Array<Event>();
+	public eventPlayer = new EventPlayer();
 	public id: number;
 
 	get disconnected() {
@@ -61,5 +64,17 @@ export class MocketSocket implements EventReceiver, EventSender {
 
 	notify(event: Event) {
 		this.receivedEvents.push(event);
+	}
+
+	on(eventName: Event['name'], callback: CallableFunction) {
+		this.eventPlayer.on(eventName, callback);
+	}
+
+	off(eventName: Event['name'], callback: CallableFunction) {
+		this.eventPlayer.off(eventName, callback);
+	}
+
+	once(eventName: Event['name'], callback: CallableFunction) {
+		this.eventPlayer.once(eventName, callback);
 	}
 }
