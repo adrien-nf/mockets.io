@@ -12,6 +12,7 @@ export class MocketSocket implements EventReceiver, EventSender {
 	public server: MocketServer;
 	public receivedEvents = new Array<Event>();
 	public sentEvents = new Array<Event>();
+	public id: number;
 
 	get disconnected() {
 		return !this.connected;

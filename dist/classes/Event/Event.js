@@ -7,6 +7,7 @@ class Event {
         this.rooms = evBuilder.rooms;
         this.eventName = evBuilder.eventName;
         this.args = evBuilder.args;
+        this.sender = evBuilder.sender;
     }
 }
 exports.Event = Event;

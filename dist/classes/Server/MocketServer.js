@@ -8,20 +8,30 @@ class MocketServer {
         this.sockets = new Set();
         this.receivedEvents = new Array();
         this.sentEvents = new Array();
+        this.id = MocketServer.currentServerId++;
     }
     createSocket() {
         const mSocket = new __1.MocketSocket(this);
-        this.sockets.add(mSocket);
+        this.registerSocket(mSocket);
         return mSocket;
+    }
+    registerSocket(mSocket) {
+        this.sockets.add(mSocket);
+        mSocket.id = MocketServer.currentSocketId++;
     }
     notify(event) {
         if (event.rooms.size > 0) {
-            const sockets = [...this.connectedSockets].filter(socket => [...socket.rooms].some(room => event.rooms.has(room)));
-            sockets.forEach(socket => socket.notify(event));
+            this.getDestinationSocketsForEvent(event).forEach(socket => socket.notify(event));
         }
         else {
             this.receivedEvents.push(event);
         }
+    }
+    getDestinationSocketsForEvent(event) {
+        return [...this.connectedSockets]
+            .filter(socket => [...socket.rooms]
+            .some(room => event.rooms.has(room)))
+            .filter(socket => socket.id !== event.sender.id);
     }
     emit(ev, ...args) {
         const event = (new EventBuilder_1.EventBuilder(this, this)).emit(ev, args);
@@ -32,3 +42,5 @@ class MocketServer {
     }
 }
 exports.MocketServer = MocketServer;
+MocketServer.currentServerId = 1;
+MocketServer.currentSocketId = 1;

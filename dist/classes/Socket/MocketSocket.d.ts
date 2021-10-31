@@ -11,6 +11,7 @@ export declare class MocketSocket implements EventReceiver, EventSender {
     server: MocketServer;
     receivedEvents: Event[];
     sentEvents: Event[];
+    id: number;
     get disconnected(): boolean;
     constructor(server: MocketServer);
     join(rooms: Room | Array<Room>): void;

@@ -3,6 +3,7 @@ import { EventName } from "../../classes/types/types";
 
 export interface EventSender {
     sentEvents: Array<Event>;
+    id: number;
 
     emit(ev: EventName, ...args): void;
 }
