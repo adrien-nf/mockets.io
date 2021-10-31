@@ -6,14 +6,14 @@ import type { EventBuilder } from './EventBuilder';
 export class Event {
 	public readonly server: MocketServer;
 	public readonly rooms: Set<Room>;
-	public readonly eventName: EventName;
+	public readonly name: EventName;
 	public readonly args: unknown[];
 	public readonly sender: EventSender;
 
 	constructor(evBuilder: EventBuilder) {
 		this.server = evBuilder.server;
 		this.rooms = evBuilder.rooms;
-		this.eventName = evBuilder.eventName;
+		this.name = evBuilder.eventName;
 		this.args = evBuilder.args;
 		this.sender = evBuilder.sender;
 	}

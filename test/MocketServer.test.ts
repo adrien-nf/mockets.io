@@ -17,7 +17,7 @@ describe('MocketServer', () => {
 		mocketServer.emit('random-event');
 
 		expect(mocketServer.sentEvents.length).to.be.equal(1);
-		expect(mocketServer.sentEvents[0].eventName).to.be.equal('random-event');
+		expect(mocketServer.sentEvents[0].name).to.be.equal('random-event');
 	})
 
 	it('should be able to receive events', () => {
@@ -26,6 +26,6 @@ describe('MocketServer', () => {
 		mocketSocket.emit('random-event');
 
 		expect(mocketServer.receivedEvents.length).to.be.equal(1);
-		expect(mocketServer.receivedEvents[0].eventName).to.be.equal('random-event');
+		expect(mocketServer.receivedEvents[0].name).to.be.equal('random-event');
 	})
 })

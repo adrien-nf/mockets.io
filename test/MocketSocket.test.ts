@@ -65,7 +65,7 @@ describe('MocketSocket', () => {
 		mocketSocket.emit('random-event');
 
 		expect(mocketSocket.sentEvents.length).to.be.equal(1);
-		expect(mocketSocket.sentEvents[0].eventName).to.be.equal('random-event')
+		expect(mocketSocket.sentEvents[0].name).to.be.equal('random-event')
 	})
 
 	it('should be able to receive events', () => {
@@ -74,7 +74,7 @@ describe('MocketSocket', () => {
 		mocketServer.emit('random-event')
 
 		expect(mocketSocket.receivedEvents.length).to.be.equal(1);
-		expect(mocketSocket.receivedEvents[0].eventName).to.be.equal('random-event')
+		expect(mocketSocket.receivedEvents[0].name).to.be.equal('random-event')
 	})
 
 	it('should be able to communicate to rooms without receiving message itself', () => {
