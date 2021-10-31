@@ -5,8 +5,6 @@ import { OneTimeEventRegisterer } from "./EventRegisterer/OneTimeEventRegisterer
 export abstract class EventPlayer {
 	events = new EventRegisterer();
 	oneTimeEvents = new OneTimeEventRegisterer();
-	anyEvents = new EventRegisterer();
-	prependedAnyEvents = new EventRegisterer();
 
 	protected play(event: Event) {
 		const args = event.args || [];
@@ -24,17 +22,5 @@ export abstract class EventPlayer {
 
 	public once(eventName: Event['name'], callback: CallableFunction) {
 		this.oneTimeEvents.addEventCallback(eventName, callback);
-	}
-
-	public onAny(callback: CallableFunction) {
-		// Not yet implemented
-	}
-
-	public prependAny(callback: CallableFunction) {
-		// Not yet implemented
-	}
-
-	public offAny(callback: CallableFunction) {
-		// Not yet implemented
 	}
 }
