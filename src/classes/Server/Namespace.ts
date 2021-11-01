@@ -29,6 +29,14 @@ export class Namespace implements EventTransmitter, EventSender, EventRegisterer
 	public registerSocket(mSocket: MocketSocket) {
 		mSocket.id = this.currentSocketId++;
 		this.sockets.add(mSocket);
+		const connectionEvent = new Event({
+			namespace: this,
+			args: [mSocket],
+			name: 'connection',
+			rooms: new Set(),
+			sender: this
+		})
+		this.eventPlayer.play(connectionEvent);
 	}
 
 	public to(room: Room): EventBuilder {

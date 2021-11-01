@@ -38,4 +38,52 @@ describe('MocketServer', () => {
 		expect(mocketSocket.receivedEvents[0].name).to.be.equal('random-event');
 		expect(namespacedSocket.receivedEvents.length).to.be.equal(0);
 	})
+
+	it('should be able to bind connection event', () => {
+		let count = 0;
+
+		const cb = () => {
+			count++;
+		}
+
+		expect(count).to.be.equal(0);
+
+		mocketServer.on('connection', cb);
+
+		mocketServer.createSocket();
+
+		expect(count).to.be.equal(1);
+
+		mocketServer.createSocket();
+		mocketServer.createSocket();
+		mocketServer.createSocket();
+
+		expect(count).to.be.equal(4);
+	})
+
+	it('should be able to bind connection event with socket parameter', () => {
+		const cb = (socket: MocketSocket) => {
+			expect(socket.id).to.be.equal(2);
+		}
+
+		mocketServer.on('connection', cb);
+
+		mocketServer.createSocket();
+	})
+
+	it('should be able to leaveAll rooms', () => {
+		expect(mocketSocket.rooms.size).to.be.equal(0);
+
+		mocketSocket.join('random-room');
+
+		expect(mocketSocket.rooms.size).to.be.equal(1);
+
+		mocketSocket.join(['random-room-2', 'random-room-3', 'random-rpom-4']);
+
+		expect(mocketSocket.rooms.size).to.be.equal(4);
+
+		mocketSocket.leaveAll();
+
+		expect(mocketSocket.rooms.size).to.be.equal(0);
+	})
 })

@@ -96,4 +96,24 @@ describe('MocketSocket', () => {
 		expect(mocketSocket.sentEvents.length).to.be.equal(1);
 		expect(mocketSocket.receivedEvents.length).to.be.equal(0);
 	})
+
+	it('should be able to communicate to rooms without receiving message itself, with alias in', () => {
+		const mocketInRoom = mocketServer.createSocket();
+		const mocketNotInRoom = mocketServer.createSocket();
+
+		mocketSocket.join('random-id');
+		mocketInRoom.join('random-id');
+
+		expect(mocketInRoom.receivedEvents.length).to.be.equal(0);
+		expect(mocketNotInRoom.receivedEvents.length).to.be.equal(0);
+		expect(mocketSocket.sentEvents.length).to.be.equal(0);
+		expect(mocketSocket.receivedEvents.length).to.be.equal(0);
+
+		mocketSocket.in('random-id').emit('random-event');
+
+		expect(mocketInRoom.receivedEvents.length).to.be.equal(1);
+		expect(mocketNotInRoom.receivedEvents.length).to.be.equal(0);
+		expect(mocketSocket.sentEvents.length).to.be.equal(1);
+		expect(mocketSocket.receivedEvents.length).to.be.equal(0);
+	})
 })

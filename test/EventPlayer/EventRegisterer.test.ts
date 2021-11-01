@@ -77,4 +77,14 @@ describe('EventRegisterer', () => {
 		expect(arg2).to.be.equal('fu');
 		expect(arg3).to.be.equal('mi');
 	})
+
+	it('should not crash when trying to remove event that does not exist', () => {
+		expect(ePlayer.registeredEvents.size).to.be.equal(0);
+
+		ePlayer.removeEventCallback('not-present-in-here', () => {
+			//
+		});
+
+		expect(ePlayer.registeredEvents.size).to.be.equal(0);
+	})
 })
