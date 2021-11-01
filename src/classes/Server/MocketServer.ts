@@ -1,10 +1,11 @@
 import { Namespace } from './Namespace';
 import { MocketSocket } from "../..";
 import { Event } from "../Event/Event";
-import { EventName } from '../types/types';
+import { EventName, Room } from '../types/types';
 import { EventRegisterer } from '../../interfaces/EventRegisterer/EventRegisterer';
 import { MocketServerEventName, NamespaceKey } from "./types";
 import { EventTransmitter } from '../../interfaces/EventTransmitter/EventTransmitter';
+import { EventBuilder } from '../Event/EventBuilder';
 
 export class MocketServer implements EventTransmitter, EventRegisterer {
 	public namespaces = new Map<NamespaceKey, Namespace>();
@@ -40,9 +41,14 @@ export class MocketServer implements EventTransmitter, EventRegisterer {
 		return namespace;
 	}
 
+	to(room: Room): EventBuilder {
+		return this.defaultNamespace.to(room);
+	}
+
 	on(eventName: MocketServerEventName, callback: CallableFunction) {
 		this.defaultNamespace.on(MocketServer.parseEventName(eventName), callback);
 	}
+
 	off(eventName: MocketServerEventName, callback: CallableFunction) {
 		this.defaultNamespace.off(MocketServer.parseEventName(eventName), callback);
 	}

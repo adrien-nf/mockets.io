@@ -22,6 +22,9 @@ class Namespace {
         mSocket.id = this.currentSocketId++;
         this.sockets.add(mSocket);
     }
+    to(room) {
+        return (new EventBuilder_1.EventBuilder(this, this)).to(room);
+    }
     on(eventName, callback) {
         this.eventPlayer.on(MocketServer_1.MocketServer.parseEventName(eventName), callback);
     }

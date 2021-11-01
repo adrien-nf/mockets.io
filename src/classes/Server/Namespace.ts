@@ -7,6 +7,7 @@ import { MocketSocket } from '../..';
 import { EventBuilder } from '../Event/EventBuilder';
 import { MocketServerEventName } from './types';
 import { EventTransmitter } from '../../interfaces/EventTransmitter/EventTransmitter';
+import { Room } from '../types/types';
 
 export class Namespace implements EventTransmitter, EventSender, EventRegisterer {
 	public currentSocketId = 1;
@@ -28,6 +29,10 @@ export class Namespace implements EventTransmitter, EventSender, EventRegisterer
 	public registerSocket(mSocket: MocketSocket) {
 		mSocket.id = this.currentSocketId++;
 		this.sockets.add(mSocket);
+	}
+
+	public to(room: Room): EventBuilder {
+		return (new EventBuilder(this, this)).to(room);
 	}
 
 	public on(eventName: MocketServerEventName, callback: CallableFunction) {

@@ -29,6 +29,9 @@ class MocketServer {
         }
         return namespace;
     }
+    to(room) {
+        return this.defaultNamespace.to(room);
+    }
     on(eventName, callback) {
         this.defaultNamespace.on(MocketServer.parseEventName(eventName), callback);
     }
