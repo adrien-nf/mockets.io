@@ -13,6 +13,7 @@ describe('MocketServer', () => {
 
 	it('should be able to send events', () => {
 		expect(mocketServer.defaultNamespace.sentEvents.length).to.be.equal(0);
+		expect(mocketSocket.receivedEvents.length).to.be.equal(0);
 
 		mocketServer.emit('random-event');
 
@@ -20,5 +21,21 @@ describe('MocketServer', () => {
 		expect(mocketServer.defaultNamespace.sentEvents[0].name).to.be.equal('random-event');
 		expect(mocketSocket.receivedEvents.length).to.be.equal(1);
 		expect(mocketSocket.receivedEvents[0].name).to.be.equal('random-event');
+	})
+
+	it('should be able to send events to namespaces without sharing to other namespaces', () => {
+		const namespacedSocket = mocketServer.of('random-namespace').createSocket();
+
+		expect(mocketServer.defaultNamespace.sentEvents.length).to.be.equal(0);
+		expect(mocketSocket.receivedEvents.length).to.be.equal(0);
+		expect(namespacedSocket.receivedEvents.length).to.be.equal(0);
+
+		mocketServer.emit('random-event');
+
+		expect(mocketServer.defaultNamespace.sentEvents.length).to.be.equal(1);
+		expect(mocketServer.defaultNamespace.sentEvents[0].name).to.be.equal('random-event');
+		expect(mocketSocket.receivedEvents.length).to.be.equal(1);
+		expect(mocketSocket.receivedEvents[0].name).to.be.equal('random-event');
+		expect(namespacedSocket.receivedEvents.length).to.be.equal(0);
 	})
 })
