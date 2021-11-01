@@ -1,17 +1,17 @@
 import type { Room, EventName } from './../types/types';
-import { MocketServer } from "../Server/MocketServer";
 import { Event } from './Event';
 import { EventSender } from '../../interfaces/EventSender/EventSender';
+import { Namespace } from '../Server/Namespace';
 
 export class EventBuilder {
-	public server: MocketServer;
+	public namespace: Namespace;
 	public sender: EventSender;
 	public rooms: Set<Room> = new Set<Room>();
-	public eventName: EventName;
+	public name: EventName;
 	public args: unknown[];
 
-	constructor(server: MocketServer, sender: EventSender) {
-		this.server = server;
+	constructor(namespace: Namespace, sender: EventSender) {
+		this.namespace = namespace;
 		this.sender = sender;
 	}
 
@@ -21,11 +21,11 @@ export class EventBuilder {
 	}
 
 	emit(ev: EventName, ...args: unknown[]): Event {
-		this.eventName = ev;
+		this.name = ev;
 		this.args = args;
 		const event = this.toEvent();
-		this.server.notify(event);
-		this.sender.sentEvents.push(event);
+		this.namespace.transmit(event);
+		this.sender.sentEvents.push(this);
 		return event;
 	}
 

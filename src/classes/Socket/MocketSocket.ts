@@ -2,16 +2,16 @@ import { EventSender } from './../../interfaces/EventSender/EventSender';
 import { EventReceiver } from './../../interfaces/EventReceiver/EventReceiver';
 import { EventName, Room } from './../types/types';
 import { EventBuilder } from "../Event/EventBuilder";
-import type { MocketServer } from "../Server/MocketServer";
 import { Event } from '../Event/Event';
 import { EventPlayer } from '../Event/EventPlayer/EventPlayer';
 import { EventRegisterer } from '../../interfaces/EventRegisterer/EventRegisterer';
+import { Namespace } from '../Server/Namespace';
 
 export class MocketSocket implements EventReceiver, EventSender, EventRegisterer {
 	public rooms: Set<Room> = new Set<Room>();
 	public joinedRooms: Set<Room> = new Set<Room>();
 	public connected = true;
-	public server: MocketServer;
+	public namespace: Namespace;
 	public receivedEvents = new Array<Event>();
 	public sentEvents = new Array<Event>();
 	public eventPlayer = new EventPlayer();
@@ -21,8 +21,8 @@ export class MocketSocket implements EventReceiver, EventSender, EventRegisterer
 		return !this.connected;
 	}
 
-	constructor(server: MocketServer) {
-		this.server = server;
+	constructor(namespace: Namespace) {
+		this.namespace = namespace;
 	}
 
 	public join(rooms: Room | Array<Room>) {
@@ -51,7 +51,7 @@ export class MocketSocket implements EventReceiver, EventSender, EventRegisterer
 	}
 
 	to(room: Room): EventBuilder {
-		return (new EventBuilder(this.server, this)).to(room);
+		return (new EventBuilder(this.namespace, this)).to(room);
 	}
 
 	in(room: Room): EventBuilder {
@@ -59,7 +59,7 @@ export class MocketSocket implements EventReceiver, EventSender, EventRegisterer
 	}
 
 	emit(ev: EventName, ...args): void {
-		(new EventBuilder(this.server, this)).emit(ev, ...args)
+		(new EventBuilder(this.namespace, this)).emit(ev, ...args)
 	}
 
 	notify(event: Event) {
