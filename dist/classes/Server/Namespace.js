@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Namespace = void 0;
+const Event_1 = require("./../Event/Event");
 const MocketServer_1 = require("./MocketServer");
 const EventPlayer_1 = require("../Event/EventPlayer/EventPlayer");
 const __1 = require("../..");
@@ -21,6 +22,14 @@ class Namespace {
     registerSocket(mSocket) {
         mSocket.id = this.currentSocketId++;
         this.sockets.add(mSocket);
+        const connectionEvent = new Event_1.Event({
+            namespace: this,
+            args: [mSocket],
+            name: 'connection',
+            rooms: new Set(),
+            sender: this
+        });
+        this.eventPlayer.play(connectionEvent);
     }
     to(room) {
         return (new EventBuilder_1.EventBuilder(this, this)).to(room);
