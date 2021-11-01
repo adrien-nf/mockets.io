@@ -2,18 +2,21 @@ import { EventSender } from './../../interfaces/EventSender/EventSender';
 import { EventReceiver } from './../../interfaces/EventReceiver/EventReceiver';
 import { EventName, Room } from './../types/types';
 import { EventBuilder } from "../Event/EventBuilder";
-import type { MocketServer } from "../Server/MocketServer";
 import { Event } from '../Event/Event';
-export declare class MocketSocket implements EventReceiver, EventSender {
+import { EventPlayer } from '../Event/EventPlayer/EventPlayer';
+import { EventRegisterer } from '../../interfaces/EventRegisterer/EventRegisterer';
+import { Namespace } from '../Server/Namespace';
+export declare class MocketSocket implements EventReceiver, EventSender, EventRegisterer {
     rooms: Set<Room>;
     joinedRooms: Set<Room>;
     connected: boolean;
-    server: MocketServer;
+    namespace: Namespace;
     receivedEvents: Event[];
     sentEvents: Event[];
+    eventPlayer: EventPlayer;
     id: number;
     get disconnected(): boolean;
-    constructor(server: MocketServer);
+    constructor(namespace: Namespace);
     join(rooms: Room | Array<Room>): void;
     leave(room: Room): void;
     leaveAll(): void;
@@ -22,4 +25,7 @@ export declare class MocketSocket implements EventReceiver, EventSender {
     in(room: Room): EventBuilder;
     emit(ev: EventName, ...args: any[]): void;
     notify(event: Event): void;
+    on(eventName: Event['name'], callback: CallableFunction): void;
+    off(eventName: Event['name'], callback: CallableFunction): void;
+    once(eventName: Event['name'], callback: CallableFunction): void;
 }

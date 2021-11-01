@@ -1,12 +1,17 @@
-import { EventSender } from './../../interfaces/EventSender/EventSender';
-import type { MocketServer } from '../Server/MocketServer';
-import type { EventName, Room } from '../types/types';
-import type { EventBuilder } from './EventBuilder';
+import { Room, EventName } from './../types/types';
+import { Namespace } from '../Server/Namespace';
+import { EventSender } from '../../interfaces/EventSender/EventSender';
 export declare class Event {
-    readonly server: MocketServer;
+    readonly namespace: Namespace;
     readonly rooms: Set<Room>;
-    readonly eventName: EventName;
+    readonly name: EventName;
     readonly args: unknown[];
     readonly sender: EventSender;
-    constructor(evBuilder: EventBuilder);
+    constructor(params: {
+        namespace: Namespace;
+        rooms: Set<Room>;
+        name: EventName;
+        args: unknown[];
+        sender: EventSender;
+    });
 }

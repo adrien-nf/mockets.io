@@ -2,14 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MocketSocket = void 0;
 const EventBuilder_1 = require("../Event/EventBuilder");
+const EventPlayer_1 = require("../Event/EventPlayer/EventPlayer");
 class MocketSocket {
-    constructor(server) {
+    constructor(namespace) {
         this.rooms = new Set();
         this.joinedRooms = new Set();
         this.connected = true;
         this.receivedEvents = new Array();
         this.sentEvents = new Array();
-        this.server = server;
+        this.eventPlayer = new EventPlayer_1.EventPlayer();
+        this.namespace = namespace;
     }
     get disconnected() {
         return !this.connected;
@@ -34,16 +36,25 @@ class MocketSocket {
         return this;
     }
     to(room) {
-        return (new EventBuilder_1.EventBuilder(this.server, this)).to(room);
+        return (new EventBuilder_1.EventBuilder(this.namespace, this)).to(room);
     }
     in(room) {
         return this.to(room);
     }
     emit(ev, ...args) {
-        (new EventBuilder_1.EventBuilder(this.server, this)).emit(ev, ...args);
+        (new EventBuilder_1.EventBuilder(this.namespace, this)).emit(ev, ...args);
     }
     notify(event) {
         this.receivedEvents.push(event);
+    }
+    on(eventName, callback) {
+        this.eventPlayer.on(eventName, callback);
+    }
+    off(eventName, callback) {
+        this.eventPlayer.off(eventName, callback);
+    }
+    once(eventName, callback) {
+        this.eventPlayer.once(eventName, callback);
     }
 }
 exports.MocketSocket = MocketSocket;

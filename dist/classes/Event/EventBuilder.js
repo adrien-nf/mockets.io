@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventBuilder = void 0;
 const Event_1 = require("./Event");
 class EventBuilder {
-    constructor(server, sender) {
+    constructor(namespace, sender) {
         this.rooms = new Set();
-        this.server = server;
+        this.namespace = namespace;
         this.sender = sender;
     }
     to(room) {
@@ -13,11 +13,11 @@ class EventBuilder {
         return this;
     }
     emit(ev, ...args) {
-        this.eventName = ev;
+        this.name = ev;
         this.args = args;
         const event = this.toEvent();
-        this.server.notify(event);
-        this.sender.sentEvents.push(event);
+        this.namespace.transmit(event);
+        this.sender.sentEvents.push(this);
         return event;
     }
     toEvent() {

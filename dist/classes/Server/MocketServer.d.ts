@@ -1,20 +1,20 @@
-import { EventSender } from './../../interfaces/EventSender/EventSender';
-import { EventReceiver } from './../../interfaces/EventReceiver/EventReceiver';
+import { Namespace } from './Namespace';
 import { MocketSocket } from "../..";
 import { Event } from "../Event/Event";
 import { EventName } from '../types/types';
-export declare class MocketServer implements EventReceiver, EventSender {
-    sockets: Set<MocketSocket>;
-    receivedEvents: Event[];
-    sentEvents: Event[];
-    static currentServerId: number;
-    static currentSocketId: number;
-    id: number;
-    constructor();
+import { EventRegisterer } from '../../interfaces/EventRegisterer/EventRegisterer';
+import { MocketServerEventName, NamespaceKey } from "./types";
+import { EventTransmitter } from '../../interfaces/EventTransmitter/EventTransmitter';
+export declare class MocketServer implements EventTransmitter, EventRegisterer {
+    namespaces: Map<string, Namespace>;
     createSocket(): MocketSocket;
     registerSocket(mSocket: MocketSocket): void;
-    notify(event: Event): void;
-    private getDestinationSocketsForEvent;
-    emit(ev: EventName, ...args: any[]): void;
-    get connectedSockets(): Set<MocketSocket>;
+    transmit(event: Event): void;
+    get defaultNamespace(): Namespace;
+    emit(ev: EventName, ...args: unknown[]): void;
+    of(namespaceKey: NamespaceKey): Namespace;
+    on(eventName: MocketServerEventName, callback: CallableFunction): void;
+    off(eventName: MocketServerEventName, callback: CallableFunction): void;
+    once(eventName: MocketServerEventName, callback: CallableFunction): void;
+    static parseEventName(eventName: MocketServerEventName): MocketServerEventName;
 }

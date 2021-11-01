@@ -1,46 +1,45 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MocketServer = void 0;
-const __1 = require("../..");
-const EventBuilder_1 = require("../Event/EventBuilder");
+const Namespace_1 = require("./Namespace");
 class MocketServer {
     constructor() {
-        this.sockets = new Set();
-        this.receivedEvents = new Array();
-        this.sentEvents = new Array();
-        this.id = MocketServer.currentServerId++;
+        this.namespaces = new Map();
     }
     createSocket() {
-        const mSocket = new __1.MocketSocket(this);
-        this.registerSocket(mSocket);
-        return mSocket;
+        return this.defaultNamespace.createSocket();
     }
     registerSocket(mSocket) {
-        this.sockets.add(mSocket);
-        mSocket.id = MocketServer.currentSocketId++;
+        this.defaultNamespace.registerSocket(mSocket);
     }
-    notify(event) {
-        if (event.rooms.size > 0) {
-            this.getDestinationSocketsForEvent(event).forEach(socket => socket.notify(event));
-        }
-        else {
-            this.receivedEvents.push(event);
-        }
+    transmit(event) {
+        this.defaultNamespace.transmit(event);
     }
-    getDestinationSocketsForEvent(event) {
-        return [...this.connectedSockets]
-            .filter(socket => [...socket.rooms]
-            .some(room => event.rooms.has(room)))
-            .filter(socket => socket.id !== event.sender.id);
+    get defaultNamespace() {
+        return this.of('/');
     }
     emit(ev, ...args) {
-        const event = (new EventBuilder_1.EventBuilder(this, this)).emit(ev, args);
-        this.connectedSockets.forEach(e => e.notify(event));
+        this.defaultNamespace.emit(ev, args);
     }
-    get connectedSockets() {
-        return (new Set([...this.sockets].filter(e => e.connected)));
+    of(namespaceKey) {
+        let namespace = this.namespaces.get(namespaceKey);
+        if (!namespace) {
+            namespace = new Namespace_1.Namespace(this);
+            this.namespaces.set(namespaceKey, namespace);
+        }
+        return namespace;
+    }
+    on(eventName, callback) {
+        this.defaultNamespace.on(MocketServer.parseEventName(eventName), callback);
+    }
+    off(eventName, callback) {
+        this.defaultNamespace.off(MocketServer.parseEventName(eventName), callback);
+    }
+    once(eventName, callback) {
+        this.defaultNamespace.once(MocketServer.parseEventName(eventName), callback);
+    }
+    static parseEventName(eventName) {
+        return eventName === 'connect' ? 'connection' : eventName;
     }
 }
 exports.MocketServer = MocketServer;
-MocketServer.currentServerId = 1;
-MocketServer.currentSocketId = 1;

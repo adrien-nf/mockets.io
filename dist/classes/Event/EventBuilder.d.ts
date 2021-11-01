@@ -1,14 +1,14 @@
 import type { Room, EventName } from './../types/types';
-import { MocketServer } from "../Server/MocketServer";
 import { Event } from './Event';
 import { EventSender } from '../../interfaces/EventSender/EventSender';
+import { Namespace } from '../Server/Namespace';
 export declare class EventBuilder {
-    server: MocketServer;
+    namespace: Namespace;
     sender: EventSender;
     rooms: Set<Room>;
-    eventName: EventName;
+    name: EventName;
     args: unknown[];
-    constructor(server: MocketServer, sender: EventSender);
+    constructor(namespace: Namespace, sender: EventSender);
     to(room: Room): this;
     emit(ev: EventName, ...args: unknown[]): Event;
     toEvent(): Event;
