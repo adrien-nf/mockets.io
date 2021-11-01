@@ -1,7 +1,7 @@
 import { Namespace } from './Namespace';
 import { MocketSocket } from "../..";
 import { Event } from "../Event/Event";
-import { EventName, Room } from '../types/types';
+import { Auth, EventName, Room } from '../types/types';
 import { EventRegisterer } from '../../interfaces/EventRegisterer/EventRegisterer';
 import { MocketServerEventName, NamespaceKey } from "./types";
 import { EventTransmitter } from '../../interfaces/EventTransmitter/EventTransmitter';
@@ -10,8 +10,8 @@ import { EventBuilder } from '../Event/EventBuilder';
 export class MocketServer implements EventTransmitter, EventRegisterer {
 	public namespaces = new Map<NamespaceKey, Namespace>();
 
-	createSocket(): MocketSocket {
-		return this.defaultNamespace.createSocket();
+	createSocket(auth?: Auth): MocketSocket {
+		return this.defaultNamespace.createSocket(auth);
 	}
 
 	registerSocket(mSocket: MocketSocket): void {

@@ -1,14 +1,14 @@
 import { Namespace } from './Namespace';
 import { MocketSocket } from "../..";
 import { Event } from "../Event/Event";
-import { EventName, Room } from '../types/types';
+import { Auth, EventName, Room } from '../types/types';
 import { EventRegisterer } from '../../interfaces/EventRegisterer/EventRegisterer';
 import { MocketServerEventName, NamespaceKey } from "./types";
 import { EventTransmitter } from '../../interfaces/EventTransmitter/EventTransmitter';
 import { EventBuilder } from '../Event/EventBuilder';
 export declare class MocketServer implements EventTransmitter, EventRegisterer {
     namespaces: Map<string, Namespace>;
-    createSocket(): MocketSocket;
+    createSocket(auth?: Auth): MocketSocket;
     registerSocket(mSocket: MocketSocket): void;
     transmit(event: Event): void;
     get defaultNamespace(): Namespace;

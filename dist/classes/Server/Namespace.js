@@ -14,8 +14,12 @@ class Namespace {
         this.sentEvents = [];
         this.server = server;
     }
-    createSocket() {
+    createSocket(auth) {
         const mSocket = new __1.MocketSocket(this);
+        auth = auth || {};
+        mSocket.handshake = {
+            auth
+        };
         this.registerSocket(mSocket);
         return mSocket;
     }

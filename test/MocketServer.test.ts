@@ -86,4 +86,12 @@ describe('MocketServer', () => {
 
 		expect(mocketSocket.rooms.size).to.be.equal(0);
 	})
+
+	it('should be able to handle auth object', () => {
+		const socket = mocketServer.createSocket({
+			id: 'test-id'
+		});
+
+		expect(socket.handshake.auth.id).to.be.equal('test-id');
+	})
 })

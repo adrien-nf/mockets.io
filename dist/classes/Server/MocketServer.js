@@ -6,8 +6,8 @@ class MocketServer {
     constructor() {
         this.namespaces = new Map();
     }
-    createSocket() {
-        return this.defaultNamespace.createSocket();
+    createSocket(auth) {
+        return this.defaultNamespace.createSocket(auth);
     }
     registerSocket(mSocket) {
         this.defaultNamespace.registerSocket(mSocket);

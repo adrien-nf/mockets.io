@@ -7,7 +7,7 @@ import { MocketSocket } from '../..';
 import { EventBuilder } from '../Event/EventBuilder';
 import { MocketServerEventName } from './types';
 import { EventTransmitter } from '../../interfaces/EventTransmitter/EventTransmitter';
-import { Room } from '../types/types';
+import { Auth, Room } from '../types/types';
 
 export class Namespace implements EventTransmitter, EventSender, EventRegisterer {
 	public currentSocketId = 1;
@@ -20,8 +20,12 @@ export class Namespace implements EventTransmitter, EventSender, EventRegisterer
 		this.server = server;
 	}
 
-	public createSocket(): MocketSocket {
+	public createSocket(auth?: Auth): MocketSocket {
 		const mSocket = new MocketSocket(this);
+		auth = auth || {};
+		mSocket.handshake = {
+			auth
+		};
 		this.registerSocket(mSocket);
 		return mSocket;
 	}

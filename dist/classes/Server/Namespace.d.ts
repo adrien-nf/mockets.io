@@ -7,7 +7,7 @@ import { MocketSocket } from '../..';
 import { EventBuilder } from '../Event/EventBuilder';
 import { MocketServerEventName } from './types';
 import { EventTransmitter } from '../../interfaces/EventTransmitter/EventTransmitter';
-import { Room } from '../types/types';
+import { Auth, Room } from '../types/types';
 export declare class Namespace implements EventTransmitter, EventSender, EventRegisterer {
     currentSocketId: number;
     sockets: Set<MocketSocket>;
@@ -15,7 +15,7 @@ export declare class Namespace implements EventTransmitter, EventSender, EventRe
     server: MocketServer;
     sentEvents: Event[];
     constructor(server: MocketServer);
-    createSocket(): MocketSocket;
+    createSocket(auth?: Auth): MocketSocket;
     registerSocket(mSocket: MocketSocket): void;
     to(room: Room): EventBuilder;
     on(eventName: MocketServerEventName, callback: CallableFunction): void;

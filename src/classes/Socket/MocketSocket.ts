@@ -1,6 +1,6 @@
 import { EventSender } from './../../interfaces/EventSender/EventSender';
 import { EventReceiver } from './../../interfaces/EventReceiver/EventReceiver';
-import { EventName, Room } from './../types/types';
+import { EventName, Handshake, Room } from './../types/types';
 import { EventBuilder } from "../Event/EventBuilder";
 import { Event } from '../Event/Event';
 import { EventPlayer } from '../Event/EventPlayer/EventPlayer';
@@ -16,6 +16,7 @@ export class MocketSocket implements EventReceiver, EventSender, EventRegisterer
 	public sentEvents = new Array<Event>();
 	public eventPlayer = new EventPlayer();
 	public id: number;
+	public handshake: Handshake;
 
 	get disconnected() {
 		return !this.connected;

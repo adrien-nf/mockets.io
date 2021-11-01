@@ -1,6 +1,6 @@
 import { EventSender } from './../../interfaces/EventSender/EventSender';
 import { EventReceiver } from './../../interfaces/EventReceiver/EventReceiver';
-import { EventName, Room } from './../types/types';
+import { EventName, Handshake, Room } from './../types/types';
 import { EventBuilder } from "../Event/EventBuilder";
 import { Event } from '../Event/Event';
 import { EventPlayer } from '../Event/EventPlayer/EventPlayer';
@@ -15,6 +15,7 @@ export declare class MocketSocket implements EventReceiver, EventSender, EventRe
     sentEvents: Event[];
     eventPlayer: EventPlayer;
     id: number;
+    handshake: Handshake;
     get disconnected(): boolean;
     constructor(namespace: Namespace);
     join(rooms: Room | Array<Room>): void;
