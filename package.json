@@ -1,6 +1,6 @@
 {
 	"name": "mockets.io",
-	"version": "0.0.11",
+	"version": "0.0.12",
 	"description": "Mocked sockets from socket.io",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
