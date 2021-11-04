@@ -24,7 +24,7 @@ export declare class MocketSocket implements EventReceiver, EventSender, EventRe
     disconnect(): this;
     to(room: Room): EventBuilder;
     in(room: Room): EventBuilder;
-    emit(ev: EventName, ...args: any[]): void;
+    emit(ev: EventName, ...args: unknown[]): void;
     notify(event: Event): void;
     on(eventName: Event['name'], callback: CallableFunction): void;
     off(eventName: Event['name'], callback: CallableFunction): void;
