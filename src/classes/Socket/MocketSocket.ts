@@ -59,8 +59,10 @@ export class MocketSocket implements EventReceiver, EventSender, EventRegisterer
 		return this.to(room);
 	}
 
-	emit(ev: EventName, ...args): void {
-		(new EventBuilder(this.namespace, this)).emit(ev, ...args)
+	emit(ev: EventName, ...args: unknown[]): void {
+		const event: Event = new Event({ namespace: this.namespace, rooms: new Set(), name: ev, args: args, sender: this })
+		this.sentEvents.push(event);
+		this.eventPlayer.play(event);
 	}
 
 	notify(event: Event) {

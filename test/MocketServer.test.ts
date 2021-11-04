@@ -96,22 +96,23 @@ describe('MocketServer', () => {
 	})
 
 	it('should be able to use connection event', () => {
-		let isTriggered = false;
-		const ack = () => {
-			isTriggered = true;
+		const ack = (socket) => {
+			socket.handshake.auth.isTriggered = true;
 		}
 
-		mocketServer.on('connection', (socket) => {
-			socket.on('test-event', ack)
+		mocketServer.on('connection', (socket: MocketSocket) => {
+			socket.on('test-event', () => ack(socket))
 		})
 
 		const newMocket = mocketServer.createSocket();
+		const anotherNewMocket = mocketServer.createSocket();
 
 		expect(newMocket.eventPlayer.events.registeredEvents.size).to.be.equal(1);
-		expect(isTriggered).to.be.false;
+		expect(anotherNewMocket.eventPlayer.events.registeredEvents.size).to.be.equal(1);
 
 		newMocket.emit('test-event')
 
-		expect(isTriggered).to.be.true;
+		expect(newMocket.handshake.auth.isTriggered).to.be.true;
+		expect(anotherNewMocket.handshake.auth.isTriggered).to.be.undefined;
 	})
 })
