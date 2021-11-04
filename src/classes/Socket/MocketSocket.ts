@@ -65,6 +65,7 @@ export class MocketSocket implements EventReceiver, EventSender, EventRegisterer
 
 	notify(event: Event) {
 		this.receivedEvents.push(event);
+		this.eventPlayer.play(event);
 	}
 
 	on(eventName: Event['name'], callback: CallableFunction) {
