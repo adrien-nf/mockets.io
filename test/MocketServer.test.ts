@@ -1,6 +1,7 @@
 import { MocketSocket } from '../src/classes/Socket/MocketSocket';
 import { expect } from 'chai';
 import { MocketServer } from '../src/classes/Server/MocketServer';
+import { ServerSocket } from '../src/classes/Socket/ServerSocket';
 
 describe('MocketServer', () => {
 	let mocketServer: MocketServer;
@@ -9,6 +10,14 @@ describe('MocketServer', () => {
 	beforeEach(() => {
 		mocketServer = new MocketServer();
 		mocketSocket = mocketServer.createSocket();
+	})
+
+	it('should bind events to serverSideSocket', () => {
+		mocketServer.on('connection', (socket) => {
+			expect(socket instanceof ServerSocket).to.be.true;
+		})
+
+		mocketServer.createSocket();
 	})
 
 	it('should be able to send events', () => {
@@ -107,12 +116,12 @@ describe('MocketServer', () => {
 		const newMocket = mocketServer.createSocket();
 		const anotherNewMocket = mocketServer.createSocket();
 
-		expect(newMocket.eventPlayer.events.registeredEvents.size).to.be.equal(1);
-		expect(anotherNewMocket.eventPlayer.events.registeredEvents.size).to.be.equal(1);
+		expect(newMocket.serverSideSocket.eventPlayer.events.registeredEvents.size).to.be.equal(1);
+		expect(anotherNewMocket.serverSideSocket.eventPlayer.events.registeredEvents.size).to.be.equal(1);
 
 		newMocket.emit('test-event')
 
-		expect(newMocket.handshake.auth.isTriggered).to.be.true;
-		expect(anotherNewMocket.handshake.auth.isTriggered).to.be.undefined;
+		expect(newMocket.serverSideSocket.handshake.auth.isTriggered).to.be.true;
+		expect(anotherNewMocket.serverSideSocket.handshake.auth.isTriggered).to.be.undefined;
 	})
 })

@@ -32,10 +32,11 @@ export class Namespace implements EventTransmitter, EventSender, EventRegisterer
 
 	public registerSocket(mSocket: MocketSocket) {
 		mSocket.id = this.currentSocketId++;
+		mSocket.serverSideSocket.id = mSocket.id;
 		this.sockets.add(mSocket);
 		const connectionEvent = new Event({
 			namespace: this,
-			args: [mSocket],
+			args: [mSocket.serverSideSocket],
 			name: 'connection',
 			rooms: new Set(),
 			sender: this

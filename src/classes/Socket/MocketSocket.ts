@@ -7,7 +7,7 @@ import { EventPlayer } from '../Event/EventPlayer/EventPlayer';
 import { EventRegisterer } from '../../interfaces/EventRegisterer/EventRegisterer';
 import { Namespace } from '../Server/Namespace';
 
-export class MocketSocket implements EventReceiver, EventSender, EventRegisterer {
+export abstract class MocketSocket implements EventReceiver, EventSender, EventRegisterer {
 	public rooms: Set<Room> = new Set<Room>();
 	public joinedRooms: Set<Room> = new Set<Room>();
 	public connected = true;
@@ -16,7 +16,7 @@ export class MocketSocket implements EventReceiver, EventSender, EventRegisterer
 	public sentEvents = new Array<Event>();
 	public eventPlayer = new EventPlayer();
 	public id: number;
-	public handshake: Handshake;
+	public handshake: Handshake = { auth: {} };
 
 	get disconnected() {
 		return !this.connected;
@@ -59,13 +59,9 @@ export class MocketSocket implements EventReceiver, EventSender, EventRegisterer
 		return this.to(room);
 	}
 
-	emit(ev: EventName, ...args: unknown[]): void {
-		const event: Event = new Event({ namespace: this.namespace, rooms: new Set(), name: ev, args: args, sender: this })
-		this.sentEvents.push(event);
-		this.eventPlayer.play(event);
-	}
+	abstract emit(ev: EventName, ...args: unknown[]): void;
 
-	notify(event: Event) {
+	notify(event: Event): void {
 		this.receivedEvents.push(event);
 		this.eventPlayer.play(event);
 	}

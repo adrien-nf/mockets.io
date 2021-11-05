@@ -1,7 +1,7 @@
+import { ClientSocket } from './classes/Socket/ClientSocket';
 import { MocketServer } from './classes/Server/MocketServer';
-import { MocketSocket } from './classes/Socket/MocketSocket';
 
 export {
 	MocketServer,
-	MocketSocket,
+	ClientSocket as MocketSocket,
 }
